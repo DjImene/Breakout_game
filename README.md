@@ -18,7 +18,7 @@ The state in Breakout is the image of the game
 ##### 1 st case (without squeezenet):
 - The state is a picture of size (210,160,3), we turn it into grayscale and resize it before giving it to the neural network (the preprocessing), then we put togeter the last 4 states so we can have more information. 
 - The input of the neural network is the result of size (84,84,4) 
-- Hidden layer:
+- ###### Hidden layer:
           - Conv1: 32 filters, size 8X8, stride 4, activation function ReLU
           - Conv1: 32 filters, size 8X8, stride 4, activation function ReLU
 
