@@ -11,8 +11,11 @@ The state in Breakout is the image of the game
 
 #### Reward :
 - +2 for every 
-- -1 everytime it loses the ball
-- -2 in the end of a game
+- -1 for the firt ball it loses
+- -2 for the second ball it loses
+- -3 for the third ball it loses
+- -4 for the fourth ball it loses
+- -6 in the end of a game
 
 #### The neural network:
 ##### 1 st case (without squeezenet):
@@ -20,12 +23,17 @@ The state in Breakout is the image of the game
 - The input of the neural network is the result of size (84,84,4) 
 - ###### Hidden layer:
           - Conv1: 32 filters, size 8X8, stride 4, activation function ReLU
-          - Conv1: 32 filters, size 8X8, stride 4, activation function ReLU
+          - Conv2: 64 filters, size 4X4, stride 2, activation function ReLU
+          - Conv3: 64 filters, size 3X3, stride 1, activation function ReLU
+          - Flatten
+          - Fully connected layer (512 units), activation function ReLU
+       
+- The output layer: nb_actions neurones => 4 neurones
 
 #### 2 nd case (with squeezenet):
-- Input layer: 4 nodes receiving the state (4 observations)
-- N hidden layers with M nodes 
-- Output layer: 2 nodes (2 actions possible)
+- Squeezenet 
+- Input layer: fully connected layer of 512 neurones, input size (4,1000), 1000 features for the last 4 states
+- Output layer: 4 nodes (4 actions possible)
 
 
 ### Reinforcement learning
