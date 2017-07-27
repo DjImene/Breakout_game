@@ -35,8 +35,7 @@ frame_height=84
 class my_agent:
     #The init funcion is an initialization function that calls the "myNN" function which builds our neural network
     #it also defines two constant values, the input and output sizes of our neural network
-    def __init__(self, input_size,output_size):
-        self.input_size=input_size
+    def __init__(self,output_size):
         self.output_size=output_size
         self.model=self.myNN()
 
@@ -46,7 +45,7 @@ class my_agent:
     #better results have been found with the modal bellow
     def myNN(self):     
         model = Sequential()
-        model.add(Convolution2D(32,(8,8),subsample=(4,4),activation='relu', input_shape=(frame_width, frame_height,state_length)))       #=(state_length,frame_width,frame_height)))#self.input_size))
+        model.add(Convolution2D(32,(8,8),subsample=(4,4),activation='relu', input_shape=(frame_width, frame_height,state_length)))     
         model.add(Convolution2D(64,4,4,subsample=(2,2),activation='relu'))
         model.add(Convolution2D(64,3,3,subsample=(1,1),activation='relu'))
         model.add(Flatten())
@@ -56,7 +55,7 @@ class my_agent:
         model.compile(loss='mse',optimizer=RMSprop(lr=learning_rate))
         return model
     
-    #The action can be either 0 or 1
+   
     def agent_action(self, state):
         predict_val=self.model.predict(state)
         return np.argmax(predict_val[0])
@@ -114,26 +113,22 @@ class my_agent:
         
 if __name__=="__main__":
     
-        #my_memory is the memory in which we store the previous experiences
+    #my_memory is the memory in which we store the previous experiences
     #the size of the memory is fixed to 1000 in this case so the first experiencies are removed sequentially
     #we get better results when we remove some of the previous experiences and keep the most recent ones
     my_memory=deque(maxlen=1000)
-    #the decision memory is the memory in which we store the last 100 results so we can decide if the average of those 100
-    #exepriences is good enough to consider that our agent has learned
+    #the decision memory is the memory in which we store the last 30 results so we can estimate the average results 
     decision_memory=deque(maxlen=30)
     #data memories are memories in which we store the data to be used for our plots
     data=[]
     data2=[]
-    #we decide which environment is to be used, in this case it's CartPole
+    #we decide which environment is to be used, in this case it's Breakout
     env = gym.make('Breakout-v0')
-    #the input_size is the number of observations we get from our environment, in this case it's 4
-    #cart position, cart velocity, pole angle, pole velocity
-    input_size = env.observation_space.shape[0]
     #the output size is the number of actions we could make to interact with the environment,
-    # in this case we have 4 actions, moving right or moving left
+    # in this case we have 4 actions
     output_size = env.action_space.n
-    #we initialize our agent with the input and output sizes
-    agent=my_agent(input_size,output_size)
+    #we initialize our agent with the  output sizes
+    agent=my_agent(output_size)
     #we initialize done with false, it becomes true when the game ends
     done=False
     #we initialize enough_data with 0, it becomes 1 when we store enough data (data>batch_size) to begin the training
