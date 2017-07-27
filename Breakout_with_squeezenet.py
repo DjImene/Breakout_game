@@ -37,9 +37,8 @@ frame_height=84
 #we store those experiences so our agent could learn from its mistakes
 class my_agent:
     #The init funcion is an initialization function that calls the "myNN" function which builds our neural network
-    #it also defines two constant values, the input and output sizes of our neural network
-    def __init__(self, input_size,output_size):
-        self.input_size=input_size
+    #it also defines two constant values, the  output sizes of our neural network
+    def __init__(self,output_size):
         self.output_size=output_size
         self.model=self.myNN()
 
@@ -99,11 +98,6 @@ class my_agent:
         return features
     
     def new_state(self,futur_state0,state0,state_1,state_2):
-        #state0=np.uint8(resize(rgb2gray(state0),(frame_width,frame_height))*255)
-        #futur_state0=np.uint8(resize(rgb2gray(futur_state0),(frame_width,frame_height))*255)
-        #state0=np.maximum(state0,futur_state0)
-        #state_1=np.uint8(resize(rgb2gray(state_1),(frame_width,frame_height))*255)
-        #state_2=np.uint8(resize(rgb2gray(state_2),(frame_width,frame_height))*255)
         
         sq_model = SqueezeNet()
         start = time.time()
@@ -149,22 +143,18 @@ if __name__ == '__main__':
     #the size of the memory is fixed to 1000 in this case so the first experiencies are removed sequentially
     #we get better results when we remove some of the previous experiences and keep the most recent ones
     my_memory=deque(maxlen=1000)
-    #the decision memory is the memory in which we store the last 100 results so we can decide if the average of those 100
-    #exepriences is good enough to consider that our agent has learned
+    #the decision memory is the memory in which we store the last 30 results
     decision_memory=deque(maxlen=30)
     #data memories are memories in which we store the data to be used for our plots
     data=[]
     data2=[]
-    #we decide which environment is to be used, in this case it's CartPole
+    #we decide which environment is to be used, in this case it's Breakout
     env = gym.make('Breakout-v0')
-    #the input_size is the number of observations we get from our environment, in this case it's 4
-    #cart position, cart velocity, pole angle, pole velocity
-    input_size = env.observation_space.shape[0]
     #the output size is the number of actions we could make to interact with the environment,
-    # in this case we have 4 actions, moving right or moving left
+    # in this case we have 4 actions
     output_size = env.action_space.n
-    #we initialize our agent with the input and output sizes
-    agent=my_agent(input_size,output_size)
+    #we initialize our agent with the output sizes
+    agent=my_agent(output_size)
     #we initialize done with false, it becomes true when the game ends
     done=False
     #we initialize enough_data with 0, it becomes 1 when we store enough data (data>batch_size) to begin the training
@@ -201,11 +191,6 @@ if __name__ == '__main__':
                 action=agent.agent_action(features)
             
               
-            
-            #reward=t
-            
-            #action represent either 0 or 1, when we pass it to the env which represents the game environment, 
-            #it emits the following 4 outputs
             ancien_info=info
             futur_state0,reward,done,info=env.step(action)
             scipy.misc.imsave('/home/i16djell/Bureau/futur_state0.jpg',futur_state0)
@@ -223,12 +208,7 @@ if __name__ == '__main__':
                      
                         
             tot_reward=tot_reward+reward
-            
-            #futur_state=np.uint8(resize(rgb2gray(futur_state),(frame_width,frame_height))*255)
-            #futur_state=np.reshape(futur_state,(1,frame_width,frame_height))
-            #futur_state=[futur_state for _ in range(4)]
-            #futur_state=np.stack(futur_state,axis=0)
-            #futur_state=futur_state.reshape(1,84,84,4)
+
 
             if t>batch_size:
                 enough_data=1 
@@ -262,14 +242,6 @@ if __name__ == '__main__':
                 break
 
         
-        
-
-            
-            #if reward_avg >= 195.0:
-                #print("\n Problem solved, average reward :", reward_avg)
-                #break
-                
-
         
         
         #If we have enough data we can start the training
