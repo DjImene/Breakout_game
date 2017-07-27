@@ -7,6 +7,8 @@ The state in Breakout is the image of the game
 #### Actions : 
 - Left
 - Right
+- Fire
+- Noop
 
 
 #### Reward :
