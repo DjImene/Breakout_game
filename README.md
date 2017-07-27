@@ -3,6 +3,9 @@ This project will demonstrate how deep reinforcement learning can be implemented
 
 The state in Breakout is the image of the game
 
+<p align="center">
+  <img src="https://github.com/DjImene/Breakout_game/blob/master/state0.jpg" width="350"/>
+</p>
 
 #### Actions : 
 - Left
