@@ -28,7 +28,7 @@ The state in Breakout is the image of the game
 - The state is a picture of size (210,160,3), we turn it into grayscale and resize it before giving it to the neural network (the preprocessing), then we put togeter the last 4 states so we can have more information. 
 
 <p align="center">
-  <img src="https://github.com/DjImene/Breakout_game/blob/master/4frames.png" width="350"/>
+  <img src="https://github.com/DjImene/Breakout_game/blob/master/4frames.png" width="500"/>
 </p>
 
 
