@@ -7,6 +7,8 @@ The state in Breakout is the image of the game
   <img src="https://github.com/DjImene/Breakout_game/blob/master/state0.jpg" width="350"/>
 </p>
 
+For this game we started by making a python code in order to resolve it then we used the transfer learning with squeezenet to fasten it.
+
 #### Actions : 
 - Left
 - Right
