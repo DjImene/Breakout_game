@@ -77,7 +77,7 @@ Q(s,a) :Calculates the expected future value from state "s" and action "a"
 Human-level control through deep reinforcement learning,
 
 
-### Installation Dependences
+### Dependencies
 - Python
 - TensorFlow
 - Keras
